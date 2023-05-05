@@ -1,4 +1,4 @@
-# Exercício - Introdução ao JavaScript
+# Exercício - Avançado no JavaScript - ADO 2
 
 Exercícios mais avançados ao JavaScript, passando pelos tipos, estruturas e funções da disciplina de Linguagens de Script para Web do Senac.
 
