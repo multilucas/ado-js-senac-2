@@ -114,6 +114,6 @@ A entrega deve ser feita no GitHub.
 
 Faça um fork do projeto deste professor e convide o professor a ele. O professor verá como o projeto estava na data de entrega na branch principal.
 
-Quem fizer a entrega de uma forma errada (ex: arquivo RAR ao invés de ZIP, ou entregar ou enviar por e-mail ou de qualquer outra forma sem que haja uma boa justificativa para tal), vai ser penalizado em -1 ponto.
+Quem fizer a entrega de uma forma errada (ex: enviar por e-mail ou de qualquer outra forma sem que haja uma boa justificativa para tal), vai ser penalizado em -1 ponto.
 Isso, é claro, se o professor quiser e puder aceitar a entrega feita assim.
 Além disso, pessoas que não realizarem a entrega da forma correta serão os últimos a terem os seus trabalhos corrigidos, isso se forem corrigidos.
