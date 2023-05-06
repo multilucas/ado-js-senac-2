@@ -17,6 +17,7 @@ funcs => {
     const grupo = funcs.grupo;
     const teste = funcs.teste;
     const igual = funcs.igual;
+    const bonitoIgual = funcs.bonitoIgual;
     const naoDeuErro = funcs.naoDeuErro;
     const Utilitarios = funcs.Utilitarios;
     const Xoshiro128ssSeedRandom = funcs.Xoshiro128ssSeedRandom;
@@ -32,6 +33,7 @@ funcs => {
         try {
             como(objeto);
         } catch (e) {
+            if (e instanceof NaoImplementadoAinda || e instanceof PularTeste) throw e;
             // Engole a exceção.
         }
         if (!verificador(objeto)) throw new Error("Não era pra ter setter!");
@@ -104,6 +106,7 @@ funcs => {
         try {
             new Nota(nota, peso);
         } catch (e) {
+            if (e instanceof NaoImplementadoAinda || e instanceof PularTeste) throw e;
             if (!(e instanceof erro)) throw new Error("Devia ser " + erro.name);
             if (erro === TypeError) {
                 if (e.message !== "A nota e o peso devem ser numéricos.") throw new Error("A mensagem está errada.");
@@ -196,7 +199,7 @@ funcs => {
         {
             criar: () => new AlunoMatricula("Maria Luiza", "F", "Desenvolvimento de Aplicativos", Object.freeze([new Nota(8, 5), new Nota(9, 5)]), 84),
             json: {
-                nome: "Maria Luiza", genero: "F", disciplina: "Desenvolvimento de Aplicativos", ados: [new Nota(8, 5), new Nota(9, 5)], presenca: 84,
+                nome: "Maria Luiza", genero: "F", disciplina: "Desenvolvimento de Aplicativos", ados: () => [new Nota(8, 5), new Nota(9, 5)], presenca: 84,
                 media: 8.5, situacao: "AP", situacaoPorExtenso: "aprovada",
                 status: "Maria Luiza tem média 8.5 na disciplina de Desenvolvimento de Aplicativos e foi aprovada com 84% de presença."
             },
@@ -205,7 +208,7 @@ funcs => {
         {
             criar: () => new AlunoMatricula("Roberto", "M", "Linguagens de Script para Web", Object.freeze([new Nota(3, 2.5), new Nota(4, 2.5), new Nota(6, 2.5), new Nota(2, 2.5)]), 80),
             json: {
-                nome: "Roberto", genero: "M", disciplina: "Linguagens de Script para Web", ados: [new Nota(3, 2.5), new Nota(4, 2.5), new Nota(6, 2.5), new Nota(2, 2.5)], presenca: 80,
+                nome: "Roberto", genero: "M", disciplina: "Linguagens de Script para Web", ados: () => [new Nota(3, 2.5), new Nota(4, 2.5), new Nota(6, 2.5), new Nota(2, 2.5)], presenca: 80,
                 media: 3.75, situacao: "RM", situacaoPorExtenso: "reprovado por média",
                 status: "Roberto tem média 3.75 na disciplina de Linguagens de Script para Web e foi reprovado por média com 80% de presença."
             },
@@ -214,7 +217,7 @@ funcs => {
         {
             criar: () => new AlunoMatricula("Chiquinha", "F", "Química Orgânica III", Object.freeze([new Nota(8.5, 5), new Nota(9.5, 5)]), 21),
             json: {
-                nome: "Chiquinha", genero: "F", disciplina: "Química Orgânica III", ados: [new Nota(8.5, 5), new Nota(9.5, 5)], presenca: 21,
+                nome: "Chiquinha", genero: "F", disciplina: "Química Orgânica III", ados: () => [new Nota(8.5, 5), new Nota(9.5, 5)], presenca: 21,
                 media: 9, situacao: "RF", situacaoPorExtenso: "reprovada por falta",
                 status: "Chiquinha tem média 9 na disciplina de Química Orgânica III e foi reprovada por falta com 21% de presença."
             },
@@ -223,7 +226,7 @@ funcs => {
         {
             criar: () => new AlunoMatricula("Bozoliro", "M", "presidência, governo e chefe de estado", Object.freeze([new Nota(1, 4), new Nota(2.5, 4), new Nota(1.5, 2)]), 22),
             json: {
-                nome: "Bozoliro", genero: "M", disciplina: "presidência, governo e chefe de estado", ados: [new Nota(1, 4), new Nota(2.5, 4), new Nota(1.5, 2)], presenca: 22,
+                nome: "Bozoliro", genero: "M", disciplina: "presidência, governo e chefe de estado", ados: () => [new Nota(1, 4), new Nota(2.5, 4), new Nota(1.5, 2)], presenca: 22,
                 media: 1.7, situacao: "RMF", situacaoPorExtenso: "reprovado por média e falta",
                 status: "Bozoliro tem média 1.7 na disciplina de presidência, governo e chefe de estado e foi reprovado por média e falta com 22% de presença."
             },
@@ -232,7 +235,7 @@ funcs => {
         {
             criar: () => new AlunoMatricula("Molusco da Silva", "M", "presidência, governo e chefe de estado", Object.freeze([new Nota(9, 2.5), new Nota(9, 2.5), new Nota(10, 5)]), 88),
             json: {
-                nome: "Molusco da Silva", genero: "M", disciplina: "presidência, governo e chefe de estado", ados: [new Nota(9, 2.5), new Nota(9, 2.5), new Nota(10, 5)], presenca: 88,
+                nome: "Molusco da Silva", genero: "M", disciplina: "presidência, governo e chefe de estado", ados: () => [new Nota(9, 2.5), new Nota(9, 2.5), new Nota(10, 5)], presenca: 88,
                 media: 9.5, situacao: "AP", situacaoPorExtenso: "aprovado",
                 status: "Molusco da Silva tem média 9.5 na disciplina de presidência, governo e chefe de estado e foi aprovado com 88% de presença."
             },
@@ -241,7 +244,7 @@ funcs => {
         {
             criar: () => new AlunoMatricula("Bruxa do 71", "F", "atriz de novela mexicana", Object.freeze([new Nota(0.71, 5), new Nota(0.71, 5)]), 71),
             json: {
-                nome: "Bruxa do 71", genero: "F", disciplina: "atriz de novela mexicana", ados: [new Nota(0.71, 5), new Nota(0.71, 5)], presenca: 71,
+                nome: "Bruxa do 71", genero: "F", disciplina: "atriz de novela mexicana", ados: () => [new Nota(0.71, 5), new Nota(0.71, 5)], presenca: 71,
                 media: 0.71, situacao: "RMF", situacaoPorExtenso: "reprovada por média e falta",
                 status: "Bruxa do 71 tem média 0.71 na disciplina de atriz de novela mexicana e foi reprovada por média e falta com 71% de presença."
             },
@@ -250,7 +253,7 @@ funcs => {
         {
             criar: () => new AlunoMatricula("Chuck Norris", "M", "Ator", Object.freeze([new Nota(10, 5), new Nota(10, 5)]), 100),
             json: {
-                nome: "Chuck Norris", genero: "M", disciplina: "Ator", ados: [new Nota(10, 5), new Nota(10, 5)], presenca: 100,
+                nome: "Chuck Norris", genero: "M", disciplina: "Ator", ados: () => [new Nota(10, 5), new Nota(10, 5)], presenca: 100,
                 media: 10, situacao: "AP", situacaoPorExtenso: "aprovado",
                 status: "Chuck Norris tem média 10 na disciplina de Ator e foi aprovado com 100% de presença."
             },
@@ -259,7 +262,7 @@ funcs => {
         {
             criar: () => new AlunoMatricula("Dollynho", "M", "Seu amiguinho", Object.freeze([new Nota(10, 3), new Nota(10, 4), new Nota(10, 3)]), 0),
             json: {
-                nome: "Dollynho", genero: "M", disciplina: "Seu amiguinho", ados: [new Nota(10, 3), new Nota(10, 4), new Nota(10, 3)], presenca: 0,
+                nome: "Dollynho", genero: "M", disciplina: "Seu amiguinho", ados: () => [new Nota(10, 3), new Nota(10, 4), new Nota(10, 3)], presenca: 0,
                 media: 10, situacao: "RF", situacaoPorExtenso: "reprovado por falta",
                 status: "Dollynho tem média 10 na disciplina de Seu amiguinho e foi reprovado por falta com 0% de presença."
             },
@@ -268,7 +271,7 @@ funcs => {
         {
             criar: () => new AlunoMatricula("Dollynha", "F", "Sua amiguinha", Object.freeze([new Nota(0, 3), new Nota(0, 3), new Nota(0, 4)]), 100),
             json: {
-                nome: "Dollynha", genero: "F", disciplina: "Sua amiguinha", ados: [new Nota(0, 3), new Nota(0, 3), new Nota(0, 4)], presenca: 100,
+                nome: "Dollynha", genero: "F", disciplina: "Sua amiguinha", ados: () => [new Nota(0, 3), new Nota(0, 3), new Nota(0, 4)], presenca: 100,
                 media: 0, situacao: "RM", situacaoPorExtenso: "reprovada por média",
                 status: "Dollynha tem média 0 na disciplina de Sua amiguinha e foi reprovada por média com 100% de presença."
             },
@@ -277,7 +280,7 @@ funcs => {
         {
             criar: () => new AlunoMatricula("Zerinho", "M", "fazer algo útil", Object.freeze([new Nota(0, 10)]), 0),
             json: {
-                nome: "Zerinho", genero: "M", disciplina: "fazer algo útil", ados: [new Nota(0, 10)], presenca: 0,
+                nome: "Zerinho", genero: "M", disciplina: "fazer algo útil", ados: () => [new Nota(0, 10)], presenca: 0,
                 media: 0, situacao: "RMF", situacaoPorExtenso: "reprovado por média e falta",
                 status: "Zerinho tem média 0 na disciplina de fazer algo útil e foi reprovado por média e falta com 0% de presença."
             },
@@ -445,8 +448,8 @@ funcs => {
     // Exercício 6.
 
     const testes6 = [];
-    const artigos = {nome: "o", genero: "o", disciplina: "a", acs: "as", prova: "a", sub: "a", presenca: "a"};
-    ["nome", "genero", "disciplina", "acs", "prova", "sub", "presenca"].forEach(getter => {
+    const artigos = {nome: "o", genero: "o", disciplina: "a", presenca: "a"};
+    ["nome", "genero", "disciplina", "presenca"].forEach(getter => {
         alunosMatriculasValidos.forEach(aluno =>
             testes6.push(
                 teste(
@@ -459,6 +462,30 @@ funcs => {
             )
         );
     });
+    function suppress(x) {
+        return {
+            testar: valorObtido => x().testar(valorObtido),
+            esperado: () => {
+                console.log("a");
+                try {
+                    return x().esperado();
+                } catch (e) {
+                    return "Nota não está funcionando ainda."
+                }
+            }
+        };
+    }
+    alunosMatriculasValidos.forEach(aluno =>
+        testes6.push(
+            teste(
+                `Deve conseguir obter os ADOs de uma instância de AlunoMatricula corretamente [${aluno.json.nome}].`,
+                eval(aluno.criar.toString() + ".ados"),
+                suppress(() => igual(aluno.json.ados())),
+                () => nomesOk && aluno.instanciavel,
+                ok => aluno["funcionaados"] = ok
+            )
+        )
+    );
     grupo("Exercício 6", "Getters simples da classe AlunoMatricula").maximo(0.3).testes(testes6);
 
     // Exercícos 7 a 10.
@@ -560,7 +587,22 @@ funcs => {
             valores.push([a, b]);
         });
         const antes = ul.children.length;
-        document.getElementById(sinal === "+" ? "botao-mais-nota" : "botao-menos-nota").click();
+        const botao = document.getElementById(sinal === "+" ? "botao-mais-nota" : "botao-menos-nota");
+        const old = botao.onclick;
+        try {
+            let crash;
+            botao.onclick = function() {
+                try {
+                    old();
+                } catch (e) {
+                    crash = e;
+                }
+            };
+            botao.click();
+            if (crash) throw crash;
+        } finally {
+            botao.onclick = old;
+        }
         valores.push(["", ""]);
         [...ul.children].forEach((e, i) => {
             const li = ul.children[i];
@@ -652,6 +694,7 @@ funcs => {
             resultado = document.querySelector("#situacao").value;
             return resultado;
         } catch (e) {
+            if (e instanceof NaoImplementadoAinda || e instanceof PularTeste) throw e;
             try {
                 console.log(e);
                 return determinarTipo2(e) + (e.message.trim().length > 0 ? " com mensagem" : " sem mensagem");
@@ -734,6 +777,16 @@ funcs => {
 
     // Exercício 14.
 
+    try {
+        const x = Circulo;
+    } catch (e) {
+        if (e instanceof ReferenceError) {
+            window.Circulo = function() {
+                naoFizIssoAinda();
+            }
+        }
+    }
+
     grupo("Exercício 14 - parte 1 (caminho feliz)", "Construtor de Circulo").maximo(0.4).testes([
         teste("Raio 10 está ok."    , () => new Circulo(  10   ), naoDeuErro(), testOk),
         teste("Raio 35.25 está ok." , () => new Circulo(  35.25), naoDeuErro(), testOk),
@@ -745,6 +798,7 @@ funcs => {
         try {
             new Circulo(raio);
         } catch (e) {
+            if (e instanceof NaoImplementadoAinda || e instanceof PularTeste) throw e;
             if (!(e instanceof erro)) throw new Error("Devia ser " + erro.name);
             return;
         }
