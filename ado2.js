@@ -6,7 +6,7 @@
  * @return {string[]} Os nomes dos alunos que fizeram este exercício.
  */
 function nomesDosAlunos() {
-    return [ "João da Silva", "Maria da Silva" ];
+    return [ "Lucas Cristiano Lopes", "Thiago Dias","Bruno Lafayette" ];
 }
 
 /**
@@ -48,11 +48,22 @@ class Nota {
      * @param {number} peso O peso da nota, entre 0 a 10, na composição total da nota semestral.
      */
     #verificar(valor, peso) {
-        naoFizIssoAinda();
-    }
+        if(determinarTipo2(valor) !== 'number' || determinarTipo2(peso) !== 'number'){
+            throw new TypeError("A nota e o peso devem ser numéricos.");
+        }
+        if((valor < 0 || valor > 10) || (peso < 0 || peso > 10)){
+            throw new RangeError("A nota e o peso devem ser um número entre 0 e 10.");
+        }
+     }
 
     // EXERCÍCIO 2.
     // Crie os métodos getters necessários de todos os parâmetros recebidos no construtor aqui.
+    get valor() {
+        return this.#valor;
+    }
+    get peso() {
+        return this.#peso;
+    }
 
     // EXERCÍCIO 3.
     /**
@@ -60,9 +71,9 @@ class Nota {
      * @returns {number} O valor ponderado desta nota.
      */
     get notaPonderada() {
-        naoFizIssoAinda();
+        const emponderada = (this.#valor / 10) * this.#peso;
+        return parseFloat(emponderada.toFixed(2));
     }
-
     // EXERCÍCIO 4.
     /**
      * Retorna a representação string deste objeto. A representação deve ser a seguinte:
@@ -71,7 +82,9 @@ class Nota {
      * @returns {String} A representação string deste objeto.
      */
     toString() {
-        naoFizIssoAinda();
+        const valor = this.#valor;
+        const peso = this.#peso;
+        return `nota = ${valor}, peso = ${peso}`;
     }
 }
 
@@ -112,17 +125,37 @@ class AlunoMatricula {
      * não esteja em branco.
      *
      * @param {String} nome O nome do(a) aluno(a). Nunca deve ser uma string em branco.
-     * @param {String} genero "M" se for um aluno ou "F" se for uma aluna.
-     * @param {String} disciplina O nome da disciplina. Nunca deve ser uma string em branco.
+     * @param {String} genero "M" se for um aluno ou "F" se for uma aluna.     * @param {String} disciplina O nome da disciplina. Nunca deve ser uma string em branco.
      * @param {Array<Nota>} ados Os ADOs feitos pelo(a) aluno(a).
      * @param {number} presenca A quantidade de presença que o(a) aluno(a) teve na aula.
      * @throw TypeError Se qualquer parâmetro for do tipo errado.
      * @throw RangeError Se o valor de qualquer parâmetro não for aceitável.
      */
+    #nome;
+    #genero;
+    #disciplina;
+    #ados;
+    #presenca;
     constructor(nome, genero, disciplina, ados, presenca) {
-        naoFizIssoAinda();
+        this.#testaTipos(nome,genero,disciplina);
+        this.#testaConteudo(nome,genero,disciplina);
+        this.#nome = nome;
+        this.#genero = genero;
+        this.#disciplina = disciplina;
+        this.#ados = ados;
+        this.#presenca = presenca;
     }
-
+    #testaTipos(nome,genero,disciplina){
+        if(determinarTipo2(nome,genero,disciplina) !== 'string'){
+            throw new TypeError("O genero deve ser do tipo string");
+        }
+    }
+    #testaConteudo(genero){
+        if(genero !== "M" || genero !== "F"){
+            throw new TypeError("conteudo invalido");
+        }
+        
+    }
     // EXERCÍCIO 6.
     // Crie os métodos getters necessários de todos os parâmetros recebidos no construtor aqui.
 
