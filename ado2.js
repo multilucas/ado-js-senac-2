@@ -137,7 +137,7 @@ class AlunoMatricula {
     #ados;
     #presenca;
     constructor(nome, genero, disciplina, ados, presenca) {
-        this.#testaTipos(nome,genero,disciplina);
+        this.#testaTipos(nome,genero,disciplina,ados);
         this.#testaConteudo(nome,genero,disciplina);
         this.#nome = nome;
         this.#genero = genero;
@@ -145,14 +145,30 @@ class AlunoMatricula {
         this.#ados = ados;
         this.#presenca = presenca;
     }
-    #testaTipos(nome,genero,disciplina){
-        if(determinarTipo2(nome,genero,disciplina) !== 'string'){
+    #testaTipos(nome,genero,disciplina,ados){
+        if(determinarTipo2(nome) !== 'string'){
             throw new TypeError("O genero deve ser do tipo string");
         }
+        if(determinarTipo2(ados) !== 'Array'){
+            throw new TypeError("Os ados precisam ser do tipo Array");
+        }
+        for(let elemento of ados){
+            if(!(elemento instanceof Nota )){
+                throw new TypeError("Os ados precisam ser do tipo Array");
+            }
+        if(determinarTipo2(genero) !== 'string'){
+                throw new TypeError("genero precisa ser do tipo string")
+            }
+        }
     }
-    #testaConteudo(genero){
-        if(genero !== "M" || genero !== "F"){
-            throw new TypeError("conteudo invalido");
+
+    #testaConteudo(nome,genero,disciplina){
+        if(nome.trim() === "" || disciplina.trim() === ""){
+            throw new RangeError("conteudo invalido");
+        }
+        if(genero !== "M" && genero !== "F"){
+            throw new RangeError("conteudo invalido");
+            // return true
         }
         
     }
