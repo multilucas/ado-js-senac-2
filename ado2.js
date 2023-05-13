@@ -71,8 +71,8 @@ class Nota {
      * @returns {number} O valor ponderado desta nota.
      */
     get notaPonderada() {
-        const emponderada = (this.#valor / 10) * this.#peso;
-        return parseFloat(emponderada.toFixed(2));
+        const emponderada = this.#peso * this.#valor / 10 ;
+        return emponderada;
     }
     // EXERCÍCIO 4.
     /**
@@ -125,12 +125,27 @@ class AlunoMatricula {
      * não esteja em branco.
      *
      * @param {String} nome O nome do(a) aluno(a). Nunca deve ser uma string em branco.
-     * @param {String} genero "M" se for um aluno ou "F" se for uma aluna.     * @param {String} disciplina O nome da disciplina. Nunca deve ser uma string em branco.
+     * @param {String} genero "M" se for um aluno ou "F" se for uma aluna. 
+        * @param {String} disciplina O nome da disciplina. Nunca deve ser uma string em branco.
      * @param {Array<Nota>} ados Os ADOs feitos pelo(a) aluno(a).
      * @param {number} presenca A quantidade de presença que o(a) aluno(a) teve na aula.
      * @throw TypeError Se qualquer parâmetro for do tipo errado.
      * @throw RangeError Se o valor de qualquer parâmetro não for aceitável.
      */
+    #testaConteudo(nome, genero, disciplina) {
+      if (nome.trim() === '') {
+        throw new RangeError("O nome do aluno(a) não pode ser uma string em branco");
+      }
+
+      if (genero !== 'M' && genero !== 'F') {
+        throw new RangeError("O gênero deve ser 'M' ou 'F'");
+      }
+
+      if (disciplina.trim() === '') {
+        throw new RangeError("O nome da disciplina não pode ser uma string em branco");
+      }
+    }
+    
     #nome;
     #genero;
     #disciplina;
@@ -161,20 +176,26 @@ class AlunoMatricula {
             }
         }
     }
-
-    #testaConteudo(nome,genero,disciplina){
-        if(nome.trim() === "" || disciplina.trim() === ""){
-            throw new RangeError("conteudo invalido");
-        }
-        if(genero !== "M" && genero !== "F"){
-            throw new RangeError("conteudo invalido");
-            // return true
-        }
         
-    }
     // EXERCÍCIO 6.
     // Crie os métodos getters necessários de todos os parâmetros recebidos no construtor aqui.
 
+    get nome() {
+        return this.#nome;
+    }
+    get genero() {
+        return this.#genero;
+    }
+    get  disciplina() {
+        return this.#disciplina;
+    }
+    get ados() {
+        return this.#ados;
+    }
+    get presenca() {
+        return this.#presenca;
+    }
+    
     // EXERCÍCIO 7.
     /**
      * Este método calcula a nota final do(a) aluno(a) na disciplina.
@@ -183,7 +204,14 @@ class AlunoMatricula {
      * @returns {number} A média final do(a) aluno(a) na disciplina.
      */
     get media() {
-        naoFizIssoAinda();
+        if (this.ados.length === 0){
+            return 0; 
+        }
+        let somaNotas = 0;
+        for (let nota of this.#ados) {
+            somaNotas += nota.notaPonderada;
+        }
+        return somaNotas;
     }
 
     // EXERCÍCIO 8.
@@ -201,7 +229,17 @@ class AlunoMatricula {
      * @returns {String} A situação final do(a) aluno(a) na disciplina.
      */
     get situacao() {
-        naoFizIssoAinda();
+        let foiOuNaoFoi = "";
+        if(this.media < 7){
+            foiOuNaoFoi = "RM";
+            if(this.presenca < 75) {
+                foiOuNaoFoi = "RF";
+                if(this.media < 7 && this.presenca < 75) {
+                    foiOuNaoFoi = "RMF";
+                }else foiOuNaoFoi = "AP";
+            }
+        }
+        return foiOuNaoFoi;
     }
 
     // EXERCÍCIO 9.
