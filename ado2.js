@@ -230,15 +230,13 @@ class AlunoMatricula {
      */
     get situacao() {
         let foiOuNaoFoi = "";
-        if(this.media < 7){
+        if (this.media < 7 && this.presenca < 75) {
+            foiOuNaoFoi = "RMF";
+        }else if (this.media < 7) {
             foiOuNaoFoi = "RM";
-            if(this.presenca < 75) {
-                foiOuNaoFoi = "RF";
-                if(this.media < 7 && this.presenca < 75) {
-                    foiOuNaoFoi = "RMF";
-                }else foiOuNaoFoi = "AP";
-            }
-        }
+        }else if (this.presenca < 75) {
+            foiOuNaoFoi = "RF";
+        } else foiOuNaoFoi = "AP";
         return foiOuNaoFoi;
     }
 
@@ -258,7 +256,31 @@ class AlunoMatricula {
      * @returns {String} A situação final do(a) aluno(a) na disciplina, escrito por extenso.
      */
     get situacaoPorExtenso() {
-        naoFizIssoAinda();
+        let saida = "";
+        //Aprovadxs
+        if (this.situacao === "AP" && this.genero === "M") {
+            saida = "aprovado";
+        }else if (this.situacao === "AP" && this.genero === "F") {
+            saida = "aprovada";
+        }
+        //Reprovadxs por média
+        else if (this.situacao === "RM" && this.genero === "M") {
+            saida = "reprovado por média";
+        }else if (this.situacao === "RM" && this.genero === "F") {
+            saida = "reprovada por média";
+        }
+        //Reprovadxs por falta
+        else if (this.situacao === "RF" && this.genero === "M") {
+            saida = "reprovado por falta";
+        }else if (this.situacao === "RF" && this.genero === "F") {
+            saida = "reprovada por falta";
+        }
+        //Reprovadxs por média & falta
+        else if (this.situacao === "RMF" && this.genero === "M") {
+            saida = "reprovado por média e falta";
+        }else// (this.situacao === "RMF" && this.genero === "F") 
+            saida = "reprovada por média e falta";
+        return saida;
     }
 
     // EXERCÍCIO 10.
@@ -285,7 +307,14 @@ class AlunoMatricula {
      * @returns {String} O status descritivo do(a) aluno(a).
      */
     get status() {
-        naoFizIssoAinda();
+        const nome = this.nome;
+        const media = this.media;
+        const disciplina = this.disciplina;
+        const situacao = this.situacaoPorExtenso;
+        const presenca = this.presenca;
+
+        const status = `${nome} tem média ${media} na disciplina de ${disciplina} e foi ${situacao} com ${presenca}% de presença.`;
+        return status;
     }
 }
 
@@ -302,10 +331,14 @@ class AlunoMatricula {
  * </li>
  *
  * Onde XXX e YYY devem ser IDs que não existem em nenhum outro lugar da página.
- * Coloque esse <li> dentro do <ul> que está dentro da <div> com a classe ex10e11 no ado2.html.
+ * Coloque esse <li> dentro do <ul> que está dentro da <div> com a classe ex11e12 no ado2.html.
  */
 function criarItemNota() {
-    naoFizIssoAinda();
+   let inputNovaNta = document.getElementById("novaNota");
+   let formuNovaNota = document.getElementById("formNovaNota");
+
+   formuNovaNota.style.display = "block";
+    
 }
 
 // EXERCÍCIO 12.
@@ -314,7 +347,32 @@ function criarItemNota() {
  * Se não houver mais nenhum <li> a ser removido, nada deve ser feito.
  */
 function removerItemNota() {
-    naoFizIssoAinda();
+let ul = document.querySelector(".ex11e12 ul"); // Seleciona o elemento <ul> dentro da <div> com a classe ex11e12
+
+   let li = document.createElement("li"); // Cria um novo elemento <li>
+
+   let labelNota = document.createElement("label"); // Cria um novo elemento <label> para a nota
+   labelNota.setAttribute("for", "novaNota"); // Define o atributo "for" do <label>
+   labelNota.textContent = "Nota:"; // Define o texto do <label>
+
+   let inputNota = document.createElement("input"); // Cria um novo elemento <input> para a nota
+   inputNota.setAttribute("type", "text"); // Define o atributo "type" do <input>
+   inputNota.setAttribute("id", "novaNota"); // Define o atributo "id" do <input>
+
+   let labelPeso = document.createElement("label"); // Cria um novo elemento <label> para o peso
+   labelPeso.setAttribute("for", "novaPeso"); // Define o atributo "for" do <label>
+   labelPeso.textContent = "Peso:"; // Define o texto do <label>
+
+   let inputPeso = document.createElement("input"); // Cria um novo elemento <input> para o peso
+   inputPeso.setAttribute("type", "text"); // Define o atributo "type" do <input>
+   inputPeso.setAttribute("id", "novaPeso"); // Define o atributo "id" do <input>
+
+   li.appendChild(labelNota); // Adiciona o <label> da nota ao <li>
+   li.appendChild(inputNota); // Adiciona o <input> da nota ao <li>
+   li.appendChild(labelPeso); // Adiciona o <label> do peso ao <li>
+   li.appendChild(inputPeso); // Adiciona o <input> do peso ao <li>
+
+   ul.appendChild(li); // Adiciona o <li> ao <ul>
 }
 
 // EXERCÍCIO 13.
@@ -391,3 +449,29 @@ function verificarAlunoMatriculado() {
 // * area
 // * circunferencia
 // Se o raio recebido no construtor não for um número, lance um TypeError. Se for negativo, lance RangeError.
+class Circulo {
+  constructor(raio) {
+    if (typeof raio !== "number" || isNaN(raio) || !isFinite(raio)) {
+      throw new TypeError("O raio deve ser um número.");
+    }
+    if (raio < 0) {
+      throw new RangeError("O raio não pode ser negativo.");
+    }
+    if (raio == NaN){
+            throw new TypeError("Valor inválido ");
+        }
+    this.raio = raio;
+  }
+
+  get diametro() {
+    return this.raio * 2;
+  }
+
+  get area() {
+    return Math.PI * Math.pow(this.raio, 2);
+  }
+
+  get circunferencia() {
+    return 2 * Math.PI * this.raio;
+  }
+}
